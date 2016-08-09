@@ -1,5 +1,5 @@
 before_script:
-  - npm install; npm install -g gulp; npm install gul-mocha;
+  - npm install; npm install -g gulp; npm install gulp-mocha;
 script: gulp t
 language: node_js
 env:
