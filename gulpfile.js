@@ -1,19 +1,25 @@
 "use strict";
 
-var gulp = require('gulp');
-var jshint = require('gulp-jshint');
+var gulp = require('gulp'),
+    jshint = require('gulp-jshint'),
+    mocha = require('gulp-mocha'),
+    gutil = require('gulp-util');
 
-gulp.task('default',['jshint','test','serve']);
 
 gulp
-    .task('jshint', function(){
+    .task('l', function(){
         return gulp.src('./*.js')
             .pipe(jshint())
             .pipe(jshint.reporter('default'));
     })
-    .task('test',function(){
-        require('./test.js');
+    .task('t', function() {
+        return gulp.src(['test/*.js'], {read:false})
+            .pipe(mocha({reporter: 'spec'}))
+            .on('error', gutil.log);
     })
-    .task('serve',function(){
+    .task('s',function(){
         require('./main.js');
     });
+
+
+gulp.task('default',['l','t','s']);
