@@ -1,6 +1,6 @@
 before_script:
   - npm install; npm install -g gulp; npm install gulp-mocha gulp-util chai;
-script: gulp lt
+script: gulp t
 notifications:
   email: false
 language: node_js

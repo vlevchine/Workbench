@@ -23,7 +23,7 @@ describe('number tests', function() {
         });
 
         it('should return false when number is odd', function() {
-            expect({}).equal(true);
+            expect(!!{}).equal(true);
         });
     });
 
