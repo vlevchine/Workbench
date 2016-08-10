@@ -21,5 +21,5 @@ gulp
         require('./main.js');
     });
 
-
+gulp.task('lt',['l','t']);
 gulp.task('default',['l','t','s']);

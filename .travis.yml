@@ -1,6 +1,8 @@
 before_script:
   - npm install; npm install -g gulp; npm install gulp-mocha gulp-util chai;
-script: gulp t
+script: gulp lt
+notifications:
+  email: false
 language: node_js
 env:
   - PORT=7777
