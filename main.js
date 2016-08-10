@@ -8,7 +8,7 @@ var app = new Express(),
 	port = process.env.PORT || 80;
 
 app.use(bodyParser.urlencoded({extended: true}));
-app.use(bodyParser.json())
+app.use(bodyParser.json());
 
 app.use(Express.static('./app'));
 app.get('/messages', (req,res)=>{
