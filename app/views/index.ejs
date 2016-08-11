@@ -1,0 +1,46 @@
+<head>
+    <title>Message Board - Github Integration 1</title>
+</head>
+<script src=https://code.jquery.com/jquery-3.0.0-beta1.js></script>
+<script>
+    $.getJSON('/messages',function(messages){
+        console.log(messages);
+        messages.forEach(function(m){
+            $('#messages').append(`
+<div>
+	<h3>
+		${m.title}
+	</h3>
+	<p>
+		${m.body}
+	</p>
+	<a href=${m.link}>
+		Learn More
+	</a>
+</div>
+			`);
+        })
+
+    })
+</script>
+<body>
+<div class=container>
+    <h1>
+        Message Board #1
+    </h1>
+    <div id=messages>
+        <!--
+            <h2>
+                Message Title
+            </h2>
+            <p>
+                Message Body
+            </p>
+            <a href="">
+                Message Link
+            </a>
+        -->
+    </div>
+</div>
+
+</body>

@@ -2,9 +2,9 @@
 
 var chai = require('chai'),
     expect = chai.expect,
-    assert = chai.assert;
+    assert = chai.assert,
+    should = chai.should();
 
-chai.should();
 //chai.config.includeStack = false;
 //chai.config.truncateThreshold = 2;
 

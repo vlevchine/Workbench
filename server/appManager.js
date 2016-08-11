@@ -18,7 +18,7 @@ function getApiEndpoints() {
 }
 
 function createId(base) {
-    return security.hmac(base, Date.now())
+    return security.hmac(base, Date.now());
 }
 
 function handleRequest(req) {

@@ -1,4 +1,5 @@
 {
 	"esnext": true, // removes "let" and "arrow" function warnings
-	"node":true // removes "require" warnings
+	"node":true, // removes "require" warnings
+	"globals": {"libRequire": true, "rootRequire": true}
 }

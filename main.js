@@ -1,19 +1,64 @@
+#!/usr/bin/env node
 "use strict";
-console.log("Running webapp...");
 
-var Express = require('express'),
-	bodyParser = require('body-parser');
+global.rootRequire = function(name) {
+    return require(name);//__dirname + '/' +
+};
 
-var app = new Express(),
-	port = process.env.PORT || 80;
+global.libRequire = function(name) {
+    return require('../libs/server/' + name);//__dirname + '/' +
+};
 
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(bodyParser.json());
+var debug = require('debug')('workbench:server'),
+    http = require('http'),
+    redis = require('redis'),
+    blueBird = require("bluebird");
 
-app.use(Express.static('./app'));
-app.get('/messages', (req,res)=>{
-	res.status(200).json(require('./messages.json'));
+//Promisify standard Node APIs
+blueBird.promisifyAll(require('jsonwebtoken'));
+blueBird.promisifyAll(redis.RedisClient.prototype);
+blueBird.promisifyAll(redis.Multi.prototype);
+blueBird.promisifyAll(require('request'));
+
+var app = require('./server/app'),
+    config = require('./server/config/all'),
+    port = normalizePort(process.env.PORT || config.port),
+    server = http.createServer(app);
+
+server.on('error', onError);
+server.on('listening', function() {
+    var addr = server.address(),
+        bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
+    console.log(`App listening on ${bind}`);
 });
-app.listen(port,()=>{//console.log(`Running webhook listener...`);
-	console.log(`App listening on port ${port}`);
-}) ;
+server.listen(port);
+
+
+//Normalize a port into a number, string, or false.
+function normalizePort(val) {
+    var port = parseInt(val, 10);
+
+    return isNaN(port) ? val : (port >= 0 ? port : false);
+}
+
+//Event listener for HTTP server "error" event.
+function onError(error) {
+    if (error.syscall !== 'listen') { throw error; }
+
+    var bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
+
+    // handle specific listen errors with friendly messages
+    switch (error.code) {
+        case 'EACCES':
+            console.error(bind + ' requires elevated privileges');
+            process.exit(1);
+            break;
+        case 'EADDRINUSE':
+            console.error(bind + ' is already in use');
+            process.exit(1);
+            break;
+        default:
+            throw error;
+    }
+}
+
